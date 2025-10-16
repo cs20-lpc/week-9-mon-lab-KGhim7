@@ -2,6 +2,7 @@
 #define LINKED_QUEUE_HPP
 
 #include "Queue.hpp"
+#include <string>
 #include <iostream>
 using namespace std;
 

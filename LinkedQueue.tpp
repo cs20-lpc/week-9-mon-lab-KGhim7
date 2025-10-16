@@ -1,10 +1,13 @@
+// LinkedQueue.tpp
+
 template <typename T>
-LinkedQueue<T>::LinkedQueue() {
-    // TODO
+LinkedQueue<T>::LinkedQueue() : head(nullptr), last(nullptr) {
+    this->length = 0;
 }
 
 template <typename T>
-LinkedQueue<T>::LinkedQueue(const LinkedQueue<T>& copyObj) {
+LinkedQueue<T>::LinkedQueue(const LinkedQueue<T>& copyObj) : head(nullptr), last(nullptr) {
+    this->length = 0;
     copy(copyObj);
 }
 
@@ -24,32 +27,66 @@ LinkedQueue<T>::~LinkedQueue() {
 
 template <typename T>
 T LinkedQueue<T>::back() const {
-    // TODO
+    if (isEmpty()) {
+        throw string("Queue is empty");
+    }
+    return last->value;
 }
 
 template <typename T>
 void LinkedQueue<T>::clear() {
-    // TODO
+    Node* cur = head;
+    while (cur) {
+        Node* nxt = cur->next;
+        delete cur;
+        cur = nxt;
+    }
+    head = last = nullptr;
+    this->length = 0;
 }
 
 template <typename T>
 void LinkedQueue<T>::copy(const LinkedQueue<T>& copyObj) {
-    // TODO
+    // assumes current queue is empty
+    Node* cur = copyObj.head;
+    while (cur) {
+        enqueue(cur->value);
+        cur = cur->next;
+    }
 }
 
 template <typename T>
 void LinkedQueue<T>::dequeue() {
-    // TODO
+    if (isEmpty()) {
+        throw string("Queue is empty");
+    }
+    Node* old = head;
+    head = head->next;
+    delete old;
+    --this->length;
+    if (this->length == 0) {
+        last = nullptr;
+    }
 }
 
 template <typename T>
 void LinkedQueue<T>::enqueue(const T& elem) {
-    // TODO
+    Node* n = new Node(elem, nullptr);
+    if (isEmpty()) {
+        head = last = n;
+    } else {
+        last->next = n;
+        last = n;
+    }
+    ++this->length;
 }
 
 template <typename T>
 T LinkedQueue<T>::front() const {
-    // TODO
+    if (isEmpty()) {
+        throw string("Queue is empty");
+    }
+    return head->value;
 }
 
 template <typename T>
